@@ -1,0 +1,16 @@
+enum AdminRole {
+    SUPERADMIN
+    ADMIN
+}
+
+model Admin {
+    id        String    @id @default(auto()) @map("_id") @db.ObjectId
+    firstName String
+    lastName  String
+    username  String    @unique
+    password  String
+    role      AdminRole @default(ADMIN)
+
+    //relations
+    activities Activity[]
+}

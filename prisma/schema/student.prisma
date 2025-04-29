@@ -1,0 +1,21 @@
+model Student {
+    id            String  @id @default(auto()) @map("_id") @db.ObjectId
+    idNumber      String
+    age           Int?
+    firstName     String
+    lastName      String?
+    middleName    String?
+    nameExtn      String?
+    guardian      String?
+    email         String  @unique
+    contactNumber String?
+    course        String?
+    yearLevel     Int
+    gender        String?
+    school        String?
+    temp_password String
+    password      String
+
+    // Relations
+    activityAttendances ActivityAttendance[]
+}

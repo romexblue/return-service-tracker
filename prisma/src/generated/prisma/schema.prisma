@@ -1,0 +1,92 @@
+model Activity {
+  id             String         @id @default(auto()) @map("_id") @db.ObjectId
+  title          String
+  description    String?
+  date           DateTime
+  hours          Int
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  attendanceType AttendanceType
+
+  adminId             String               @db.ObjectId
+  admin               Admin                @relation(fields: [adminId], references: [id])
+  activityAttendances ActivityAttendance[]
+}
+
+enum AttendanceType {
+  ONE_TIME
+  TIME_IN_OUT
+}
+
+model ActivityAttendance {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  studentId  String   @db.ObjectId
+  activityId String   @db.ObjectId
+  status     String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  student  Student  @relation(fields: [studentId], references: [id])
+  activity Activity @relation(fields: [activityId], references: [id])
+
+  @@unique([studentId, activityId])
+}
+
+enum AdminRole {
+  SUPERADMIN
+  ADMIN
+}
+
+model Admin {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  firstName String
+  lastName  String
+  username  String    @unique
+  password  String
+  role      AdminRole @default(ADMIN)
+
+  //relations
+  activities Activity[]
+}
+
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider        = "prisma-client-js"
+  output          = "../src/generated/prisma"
+  previewFeatures = ["prismaSchemaFolder"]
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+//npx prisma db push --schema ./prisma/schema
+//npx prisma generate --schema ./prisma/schema
+//https://github.com/prisma/prisma/discussions/18958
+model Student {
+  id            String  @id @default(auto()) @map("_id") @db.ObjectId
+  idNumber      String
+  age           Int?
+  firstName     String
+  lastName      String?
+  middleName    String?
+  nameExtn      String?
+  guardian      String?
+  email         String  @unique
+  contactNumber String?
+  course        String?
+  yearLevel     Int
+  gender        String?
+  school        String?
+  temp_password String
+  password      String
+
+  // Relations
+  activityAttendances ActivityAttendance[]
+}
