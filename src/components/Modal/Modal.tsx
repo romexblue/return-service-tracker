@@ -3,11 +3,18 @@ import React, { ReactNode, useEffect, useRef } from "react";
 type Props = {
     visible: boolean;
     onClose: () => void;
+    closeOnClickOutside?: boolean;
     children: ReactNode;
     modalTitle: string;
 };
 
-const Modal = ({ visible, onClose, modalTitle, children }: Props) => {
+const Modal = ({
+    visible,
+    onClose,
+    modalTitle,
+    children,
+    closeOnClickOutside = true,
+}: Props) => {
     const modalRef = useRef<HTMLDialogElement | null>(null);
     useEffect(() => {
         if (!modalRef.current) {
@@ -35,7 +42,7 @@ const Modal = ({ visible, onClose, modalTitle, children }: Props) => {
                 ref={modalRef}
                 onCancel={handleESC}
             >
-                <div className="modal-box">
+                <div className="modal-box w-11/12 max-w-5xl">
                     <form method="dialog">
                         <button
                             className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
@@ -45,11 +52,13 @@ const Modal = ({ visible, onClose, modalTitle, children }: Props) => {
                         </button>
                     </form>
                     <h3 className="font-bold text-lg">{modalTitle}</h3>
-                    <div className="py-4">{children}</div>
+                    <div className="py-4 mt-4">{children}</div>
                 </div>
-                <form method="dialog" className="modal-backdrop">
-                    <button onClick={handleClose}>close</button>
-                </form>
+                {closeOnClickOutside && (
+                    <form method="dialog" className="modal-backdrop">
+                        <button onClick={handleClose}>close</button>
+                    </form>
+                )}
             </dialog>
         </>
     );

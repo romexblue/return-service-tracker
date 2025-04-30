@@ -27,7 +27,7 @@ export default function AdminLayout({
                     aria-label="close sidebar"
                     className="drawer-overlay"
                 ></label>
-                <div className="menu text-base-content min-h-full w-80 p-4 border-r border-gray-200 dark:border-gray-700">
+                <div className="menu text-base-content min-h-full w-64 p-4 border-r border-gray-200 dark:border-gray-700">
                     <h1 className="text-2xl ">CSO Admin</h1>
                     <h2 className="text-xs mt-6 mb-4">Menu</h2>
                     <ul className="flex flex-col gap-2">

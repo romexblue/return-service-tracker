@@ -13,3 +13,19 @@
 }
 
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+[data-theme="dark"] .rdp-root {
+    --rdp-range_middle-background-color: #404040;
+
+    .rdp-selected .rdp-day_button {
+        border-color: #1d4ed8;
+    }
+
+    .rdp-range_start .rdp-day_button {
+        background-color: #1d4ed8;
+    }
+
+    .rdp-range_end .rdp-day_button {
+        background-color: #1d4ed8;
+    }
+}
